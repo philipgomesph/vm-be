@@ -41,7 +41,7 @@ export class ClientService {
     try {
       await this.clientModel.findById(id).exec();
     } catch (error) {
-      throw new NotFoundException({ 'Cliente não encontrado': { error } });
+      throw new NotFoundException({ 'Usuario não encontrado': { error } });
     }
 
     const returned = await this.clientModel.updateOne({ _id: id }, data).exec();

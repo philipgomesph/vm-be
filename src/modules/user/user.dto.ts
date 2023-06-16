@@ -6,7 +6,18 @@ import {
   Length,
 } from 'class-validator';
 
-export class ClientDTO {
+export class UsersCollaboratorsDTO {
+  @IsString()
+  name: string;
+
+  @IsString()
+  phone: string;
+
+  @IsString({ each: true })
+  specialties?: string[];
+}
+
+export class UserDTO {
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -14,19 +25,15 @@ export class ClientDTO {
   @Length(11, 11, {
     message: 'Valor invalido para CPF, precisa ter 11 digitos',
   })
-  @IsNotEmpty()
   cpf: string;
 
   @IsString()
   @IsEmail()
-  @IsNotEmpty()
   email: string;
 
-  @IsNotEmpty()
   password: string;
 
   @IsString()
-  @IsNotEmpty()
   @IsPhoneNumber('BR', {
     message: 'Formato de telefone incorreto, Ex: 011-942424242',
   })
