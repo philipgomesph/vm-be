@@ -5,9 +5,13 @@ import {
   IsEmail,
   IsPhoneNumber,
   IsNotEmpty,
+  IsNumber,
+  IsTaxId,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { UsersCollaboratorsDTO } from '../user/user.dto';
+import { AppointmentDTO } from '../appointment/appointment.dto';
+import { DOTW } from 'src/shared/enum/dotw.enum';
 
 class ContactBarberShopDTO {
   @IsString()
@@ -32,22 +36,27 @@ class ReviewsDTO {
 
   @IsString()
   comment: string;
+
+  @IsNumber()
+  rate: number;
 }
 
-class ServicoDTO {
-  tipoDoServico: string;
-  tempo: Date;
-  valor: number;
+class openingHoursDTO {
+  startTime: string;
+  endTime: string;
+  horaAlmoço?: string;
 }
 
-class AppointmentDTO {
-  cliente: string;
-  servico: ServicoDTO[];
-  dia: Date;
-  startDate: Date;
-  endDate: Date;
+class ServicesBarberShopDTO {
+  service: string;
+  duration: string;
+  value: number;
 }
-
+class ScheduleDTO {
+  openingHoursSchedule: openingHoursDTO;
+  daysOff: DOTW[];
+  holidays: string[];
+}
 export class BarberShopDTO {
   @IsString()
   name: string;
@@ -62,20 +71,20 @@ export class BarberShopDTO {
   @Type(() => UsersCollaboratorsDTO)
   collaborators: UsersCollaboratorsDTO[];
 
-  @ValidateNested({ each: true })
-  @Type(() => ReviewsDTO)
-  reviews: ReviewsDTO[];
-
-  @IsArray()
-  fotos: string[];
+  servicesBarberShop: ServicesBarberShopDTO[];
 
   @ValidateNested({ each: true })
   @Type(() => AppointmentDTO)
   appointment?: AppointmentDTO[];
 
-  //   @IsArray()
-  //   schedule: Record<string, Record<string, string>>;
+  @ValidateNested({ each: true })
+  @Type(() => ScheduleDTO)
+  schedule: ScheduleDTO;
 
-  //   @IsString()
-  //   precos: Record<string, number>;
+  @ValidateNested({ each: true })
+  @Type(() => ReviewsDTO)
+  reviews: ReviewsDTO[];
+
+  @IsArray()
+  photos: string[];
 }

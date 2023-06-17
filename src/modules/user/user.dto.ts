@@ -7,6 +7,7 @@ import {
 } from 'class-validator';
 
 export class UsersCollaboratorsDTO {
+  idCollaborator: string;
   @IsString()
   name: string;
 
